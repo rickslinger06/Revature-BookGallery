@@ -51,7 +51,7 @@ function BookSubmissionComponent() {
   return (
    <>
 
-   <div className="container" style={{width:"600px"}}>
+   <div className="container mt-5" style={{width:"600px"}}>
     <div className="card-body">
       <div className="card">
         <form  onSubmit={handleSubmit}> 
@@ -96,7 +96,7 @@ function BookSubmissionComponent() {
           placeholder="published year" 
           value={book.publishedYear}/>
 
-     <button className="mt-3 btn btn-primary" type="submit">Submit</button>
+     <button className=" d-flex text-center mb-3 mt-3 btn btn-primary" type="submit">Submit</button>
    </form>
 
       </div>

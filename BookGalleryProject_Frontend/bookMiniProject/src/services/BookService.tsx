@@ -26,3 +26,28 @@ export const createBook = async (book:Book) : Promise<Book> => {
 
     return res.json();
 }
+
+export const getBooksWithFilter = async (
+  genre?: string,
+  author?: string
+  
+): Promise<Book[]> => {
+  const params = new URLSearchParams();
+
+  if (genre) {
+    params.append("genre", genre);
+  }
+
+  if (author) {
+    params.append("author", author);
+  }
+
+  const res = await fetch(`${baseUrl}/books?${params.toString()}`);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch books");
+  }
+
+  return res.json();
+
+};
