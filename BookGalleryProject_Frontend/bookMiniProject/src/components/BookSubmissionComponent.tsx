@@ -18,10 +18,31 @@ function BookSubmissionComponent() {
   });
 
   const[createmessage, setCreateMessage] = useState("");
+  const[errorMsg,setErrorMsg] = useState("");
+
 
 
   const handleChange = (e:any) => {
     const {name, value} = e.target;
+
+
+    let error = "";
+
+    if (name === "title" && value.trim().length === 0) {
+      error = "Title is required";
+    } else if (name === "author" && value.trim().length === 0) {
+      error = "Author is required";
+    } else if (name === "genre" && value.trim().length === 0) {
+      error = "Genre is required";
+    } else if (name === "pages" && Number(value) < 1) {
+      error = "Pages must be more than 0";
+    } else if (name === "publishedYear" && Number(value) < 1) {
+      error = "Published Year is required";
+    }
+
+
+
+  setErrorMsg(error);
 
     setBook({
       ...book,
@@ -31,6 +52,31 @@ function BookSubmissionComponent() {
   }
   const handleSubmit = (e:any) => {
     e.preventDefault();
+        if (book.title.trim().length === 0) {
+      setErrorMsg("Title is required");
+      return;
+    }
+
+    if (book.author.trim().length === 0) {
+      setErrorMsg("Author is required");
+      return;
+    }
+
+    if (book.genre.trim().length === 0) {
+      setErrorMsg("Genre is required");
+      return;
+    }
+
+    if (book.pages < 1) {
+      setErrorMsg("Pages must be more than 0");
+      return;
+    }
+
+    if (book.publishedYear < 1) {
+      setErrorMsg("Published Year is required");
+      return;
+    }
+
     
     createBook(book)
     .then((data) => {
@@ -53,7 +99,7 @@ function BookSubmissionComponent() {
 
    <div className="container mt-5" style={{width:"600px"}}>
     <div className="card-body">
-      <div className="card">
+      <div className="card py-3 px-3">
         <form  onSubmit={handleSubmit}> 
       <label htmlFor="title">Title</label>
     <input 
@@ -63,6 +109,7 @@ function BookSubmissionComponent() {
           onChange={handleChange}
           placeholder="title" 
           value={book.title}/>
+      
 
     <label htmlFor="author">Author</label>
     <input type="text" 
@@ -96,10 +143,19 @@ function BookSubmissionComponent() {
           placeholder="published year" 
           value={book.publishedYear}/>
 
-     <button className=" d-flex text-center mb-3 mt-3 btn btn-primary" type="submit">Submit</button>
+      <div className="d-flex justify-content-center">
+  <button className="mb-3 mt-3 btn btn-primary" type="submit">
+    Submit
+  </button>
+  
+</div>
+              {errorMsg && <p className="text-danger text-center mt-2">{errorMsg}</p>}
    </form>
+   
 
       </div>
+      
+      
       {
         createmessage && 
         <div className="alert alert-info mt-3" role="alert">
@@ -108,6 +164,7 @@ function BookSubmissionComponent() {
       }
 
     </div>
+    
 
    </div>
 
